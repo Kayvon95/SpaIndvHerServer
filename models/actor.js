@@ -10,6 +10,9 @@ const ActorSchema = new Schema({
         type: String,
         required: true
     },
+    yearOfBirth: {
+        type: Number
+    },
     isDirector: {
         type: Boolean,
         required: true,
@@ -17,4 +20,5 @@ const ActorSchema = new Schema({
     },
 });
 
-const Actor = mongoose.model('actor', ActorSchema)
+const Actor = mongoose.model('actor', ActorSchema);
+module.exports = Actor;

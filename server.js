@@ -5,6 +5,10 @@ var http = require('http');
 
 var mongodb = require('./config/mongo.db');
 
+var directorRoutes_v1 = require('./routes/director.routes.v1');
+var movieRoutes_v1 = require('./routes/movie.routes.v1');
+var actorRoutes_v1 = require('./routes/actor.routes.v1');
+
 var app = express();
 
 // Bodyparser
@@ -16,8 +20,25 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.set('port', (process.env.PORT || config.env.webPort));
 app.set('env', (process.env.ENV || 'development'));
 
+// CORS headers
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    // res.setHeader('Access-Control-Allow-Origin', process.env.ALLOW_ORIGIN || 'http://localhost:4200');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    // Pass to next layer of middleware
+    next();
+});
 // Routes
-//app.use('/api/v1/--', --_v1);
+app.use('/api/v1/directors', directorRoutes_v1);
+app.use('/api/v1/movies', movieRoutes_v1);
+app.use('/api/v1/actors', actorRoutes_v1);
 
 //About response
 app.get(['/about',  '/api/v1/about'], function(req, res) {

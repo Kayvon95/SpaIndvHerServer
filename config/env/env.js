@@ -7,7 +7,7 @@ var env = {
     dbPort: process.env.DB_PORT || '27017',
     dbUser: process.env.DB_USER || '',
     dbPassword: process.env.DB_PASSWORD || '',
-    dbDatabase: process.env.DB_DATABASE || 'SPAindvTest',
+    dbDatabase: process.env.DB_DATABASE || 'SPAindvServer',
     neo4jPassword: process.env.NEO4J_PASSWORD || '',
 };
 
