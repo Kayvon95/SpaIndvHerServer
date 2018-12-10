@@ -13,6 +13,14 @@ const DirectorSchema = new Schema({
         type: String,
         required: true
     },
+    yearOfBirth: {
+        type: Number,
+        required: true
+    },
+    countryOfOrigin: {
+        type: String,
+        required: true
+    },
     isActor: {
         type: Boolean,
         required: true,

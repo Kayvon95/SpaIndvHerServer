@@ -30,6 +30,8 @@ routes.post('/', function (req, res) {
     const newDirector = new Director({
         'firstName': req.body.firstName,
         'lastName': req.body.lastName,
+        'yearOfBirth' : req.body.yearOfBirth,
+        'countryOfOrigin' : req.body.countryOfOrigin,
         'isActor': req.body.isActor,
     });
     Director.create(newDirector)
@@ -48,6 +50,8 @@ routes.put('/:id', function (req, res) {
     const updatedDirector = {
         'firstName': req.body.firstName,
         'lastName': req.body.lastName,
+        'yearOfBirth' : req.body.yearOfBirth,
+        'countryOfOrigin' : req.body.countryOfOrigin,
         'isActor': req.body.isActor,
     };
     Director.findByIdAndUpdate({'_id': req.params.id}, updatedDirector)

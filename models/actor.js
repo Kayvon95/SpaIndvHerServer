@@ -11,7 +11,12 @@ const ActorSchema = new Schema({
         required: true
     },
     yearOfBirth: {
-        type: Number
+        type: Number,
+        required: true
+    },
+    countryOfOrigin: {
+        type: String,
+        required: true
     },
     isDirector: {
         type: Boolean,
