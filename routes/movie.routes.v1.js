@@ -37,6 +37,7 @@ routes.post('/', function (req, res) {
         'minutes' : req.body.minutes,
         'genre' : req.body.genre,
         'yearOfRelease': req.body.yearOfRelease,
+        'imageUrl': req.body.imageUrl
     });
     Movie.create(newMovie)
         .then(movie => {
@@ -57,6 +58,7 @@ routes.put('/:id', function (req, res) {
         'minutes' : req.body.minutes,
         'genre' : req.body.genre,
         'yearOfRelease': req.body.yearOfRelease,
+        'imageUrl': req.body.imageUrl
     };
     Movie.findByIdAndUpdate({'_id': req.params.id}, updatedMovie)
         .then(() => {

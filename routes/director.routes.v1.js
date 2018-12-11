@@ -33,6 +33,7 @@ routes.post('/', function (req, res) {
         'yearOfBirth' : req.body.yearOfBirth,
         'countryOfOrigin' : req.body.countryOfOrigin,
         'isActor': req.body.isActor,
+        'imageUrl': req.body.imageUrl
     });
     Director.create(newDirector)
         .then(director => {
@@ -53,6 +54,7 @@ routes.put('/:id', function (req, res) {
         'yearOfBirth' : req.body.yearOfBirth,
         'countryOfOrigin' : req.body.countryOfOrigin,
         'isActor': req.body.isActor,
+        'imageUrl': req.body.imageUrl
     };
     Director.findByIdAndUpdate({'_id': req.params.id}, updatedDirector)
         .then(() => {

@@ -23,6 +23,10 @@ const ActorSchema = new Schema({
         required: true,
         default: 0
     },
+    imageUrl: {
+        type: String,
+        required: true
+    }
 });
 
 const Actor = mongoose.model('actor', ActorSchema);

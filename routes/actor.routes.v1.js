@@ -32,7 +32,8 @@ routes.post('/', function(req, res) {
        'lastName': req.body.lastName,
        'yearOfBirth' : req.body.yearOfBirth,
        'countryOfOrigin' : req.body.countryOfOrigin,
-       'isDirector' : req.body.isDirector
+       'isDirector' : req.body.isDirector,
+       'imageUrl' : req.body.imageUrl
    });
    Actor.create(newActor)
        .then(actor => {
@@ -52,7 +53,8 @@ routes.put('/:id', function(req, res) {
         'lastName': req.body.lastName,
         'yearOfBirth' : req.body.yearOfBirth,
         'countryOfOrigin' : req.body.countryOfOrigin,
-        'isDirector' : req.body.isDirector
+        'isDirector' : req.body.isDirector,
+        'imageUrl' : req.body.imageUrl
     };
     Actor.findByIdAndUpdate({'_id': req.params.id}, updatedActor)
         .then(() => {

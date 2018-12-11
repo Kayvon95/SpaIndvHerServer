@@ -24,8 +24,15 @@ const MovieSchema = new Schema({
     yearOfRelease: {
         //type: Date
         type: Number
-    }
-
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    actors: {
+    type: Schema.Types.ObjectId,
+        ref: 'actor'
+}
 });
 
 const Movie = mongoose.model('movie', MovieSchema);

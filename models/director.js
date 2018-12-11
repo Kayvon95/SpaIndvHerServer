@@ -26,6 +26,10 @@ const DirectorSchema = new Schema({
         required: true,
         default: 0
     },
+    imageUrl: {
+        type: String,
+        required: true
+    },
     movies: {
         type: Schema.Types.ObjectId,
         ref: 'movie'
