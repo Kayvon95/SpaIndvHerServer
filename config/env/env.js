@@ -8,7 +8,7 @@ var env = {
     dbUser: process.env.DB_USER || '',
     dbPassword: process.env.DB_PASSWORD || '',
     dbDatabase: process.env.DB_DATABASE || 'SPAindvServer',
-    neo4jPassword: process.env.NEO4J_PASSWORD || '',
+    neo4jPassword: process.env.NEO4J_PASSWORD || 'Ftuna19zIga',
 };
 
 // var dbUrl = process.env.NODE_ENV === 'production' ?

@@ -2,6 +2,9 @@ var express = require('express');
 var routes = express.Router();
 const Director = require('../models/director');
 const Movie = require('../models/movie');
+//Neo4j
+const neo4j = require('../config/neo4j.db');
+const session = neo4j.session();
 
 routes.get('/', function (req, res) {
     Director.find({})
@@ -126,6 +129,33 @@ routes.delete('/:id/movie/:movieId', function (req, res) {
                     res.send(director);
                 })
         });
+});
+
+//NEO4j
+routes.post('/neo', function (req, res) {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const yearOfBirth = req.body.yearOfBirth;
+    const countryOfOrigin = req.body.countryOfOrigin;
+
+    session
+        .run("CREATE (director:Director{" +
+            "firstName: {firstNameParam}, " +
+            "lastName: {lastNameParam}, " +
+            "yearOfBirth: {yearOfBirthParam}, " +
+            "countryOfOrigin: {countryOfOriginParam}}) " +
+            "RETURN director",
+            {firstNameParam: firstName, lastNameParam: lastName, yearOfBirthParam: yearOfBirth, countryOfOriginParam: countryOfOrigin})
+        .then(function(result) {
+            result.records.forEach(function(record) {
+                res.status(200).json(record)
+            });
+            session.close();
+        })
+        .catch(function(error) {
+            res.status(400).json(error);
+            console.log(error);
+        })
 });
 
 module.exports = routes;

@@ -16,7 +16,7 @@
     "moment": "^2.22.2",
     "mongoose": "^4.8.7",
     "morgan": "^1.9.1",
-    "neo4j-driver": "^1.7.1"
+    "neo4j-driver": "^1.7.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
