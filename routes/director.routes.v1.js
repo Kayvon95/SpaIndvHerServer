@@ -158,6 +158,33 @@ routes.post('/neo', function (req, res) {
         })
 });
 
+routes.put('/:lastName/neo', function (req, res) {
+    res.contentType('application/json');
+    const lastName = req.params.lastName;
+    //Body
+    const firstName = req.body.firstName;
+    const newLastName = req.body.lastName;
+    const yearOfBirth = req.body.yearOfBirth;
+    const countryOfOrigin = req.body.countryOfOrigin;
+    session
+        .run("MATCH (director :Director{lastName: {lastNameParam}}) " +
+            " SET director.firstName = {firstNameParam}, director.lastName = {newLastNameParam}, " +
+            "director.yearOfBirth = {yearOfBirthParam}, director.countryOfOrigin = {countryOfOriginParam} " +
+            " RETURN director",
+            {firstNameParam: firstName, lastNameParam: lastName, newLastNameParam: newLastName, yearOfBirthParam: yearOfBirth, countryOfOriginParam: countryOfOrigin})
+        .then(function (result) {
+            result.records.forEach(function (record) {
+                console.log(record);
+                res.status(200).json(result);
+            });
+            session.close();
+        })
+        .catch(function (error) {
+            res.status(400).json(error);
+            console.log(error);
+        })
+});
+
 routes.delete('/:lastName/neo', function (req, res) {
     res.contentType('application/json');
     const firstName = req.params.firstName;
