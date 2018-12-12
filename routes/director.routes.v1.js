@@ -158,4 +158,26 @@ routes.post('/neo', function (req, res) {
         })
 });
 
+routes.delete('/:lastName/neo', function (req, res) {
+    res.contentType('application/json');
+    const firstName = req.params.firstName;
+    const lastName = req.params.lastName;
+    session
+        .run(//"MATCH(director:Director) WHERE director.firstName = {firstName: {firstNameParam}} AND director.lastName={lastName: {lastName}}" +
+            // "MATCH(director:Director) WHERE director.firstName = {firstName: {firstNameParam}}" +
+            "MATCH (director:Director  {lastName: {lastNameParam}}) " +
+            "DELETE director " +
+            "RETURN director", {lastNameParam: lastName})
+        .then(function(result) {
+            result.records.forEach(function(record) {
+                res.status(200).json('Deleted director ' + firstName + ' ' + lastName);
+            });
+            session.close();
+        })
+        .catch(function(error) {
+            res.status(400).json(error);
+            console.log(error);
+        })
+});
+
 module.exports = routes;
