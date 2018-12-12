@@ -1,9 +1,17 @@
 var express = require('express');
 var routes = express.Router();
 const Director = require('../models/director');
+const Movie = require('../models/movie');
 
 routes.get('/', function (req, res) {
     Director.find({})
+        .populate({
+            path: 'movies',
+            populate: {
+                path: 'movies',
+                model: 'movie'
+            }
+        })
         .then(function (directors) {
             res.status(200).json(directors);
         })
@@ -16,6 +24,13 @@ routes.get('/', function (req, res) {
 routes.get('/:id', function (req, res) {
     res.contentType('application/json');
     Director.findOne({"_id": req.params.id})
+        .populate({
+            path: 'movies',
+            populate: {
+                path: 'movies',
+                model: 'movie'
+            }
+        })
         .then(function (directors) {
             res.status(200).json(directors);
         })
@@ -74,6 +89,43 @@ routes.delete('/:id', function (req, res) {
                     res.status(200).json({message:'Director removed'});
                 })
         })
+});
+
+//Add movie to director
+routes.put('/:id/movie', function(req, res) {
+    const directorid = req.params.id;
+    console.log(directorid);
+    const movieProps = req.body;
+    const movie = new Movie({
+        'title' : movieProps.title,
+        'subtitle' : movieProps.subtitle,
+        'minutes' : movieProps.minutes,
+        'genre': movieProps.genre,
+        'yearOfRelease': movieProps.yearOfRelease,
+        'imageUrl': movieProps.imageUrl,
+    });
+    Director.findOne({'_id': directorid})
+        .then((director) => {
+            director.movies.push(movie);
+            Promise.all([movie.save(), director.save()])
+                .then(() => {
+                    res.send(director);
+                })
+        })
+});
+//Delete movie from director
+routes.delete('/:id/movie/:movieId', function (req, res) {
+    console.log('DirectorId ' + req.params.id + ' with movieId ' + req.params.movieId);
+    Director.findOne({'_id': req.params.id})
+        .then((director) => {
+            const movieIndex = director.movies.indexOf(req.params.movieId);
+            console.log('movieIndex is ' + movieIndex);
+            director.movies.splice(movieIndex, 1);
+            director.save()
+                .then(() => {
+                    res.send(director);
+                })
+        });
 });
 
 module.exports = routes;

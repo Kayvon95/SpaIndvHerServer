@@ -30,10 +30,10 @@ const DirectorSchema = new Schema({
         type: String,
         required: true
     },
-    movies: {
+    movies: [{
         type: Schema.Types.ObjectId,
         ref: 'movie'
-    }
+    }]
 });
 
 const Director = mongoose.model('director', DirectorSchema);

@@ -10,8 +10,7 @@ const MovieSchema = new Schema({
         required: true
     },
     subtitle: {
-        type: String,
-        required: false
+        type: String
     },
     minutes: {
         type: Number,
@@ -29,10 +28,10 @@ const MovieSchema = new Schema({
         type: String,
         required: true
     },
-    actors: {
-    type: Schema.Types.ObjectId,
+    actors: [{
+        type: Schema.Types.ObjectId,
         ref: 'actor'
-}
+    }]
 });
 
 const Movie = mongoose.model('movie', MovieSchema);
