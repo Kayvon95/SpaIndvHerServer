@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "test": "node node_modules/mocha/bin/_mocha ./tests/*test.js --reporter spec"
   },
   "author": "Kayvon Rahimi",
   "license": "ISC",
@@ -16,7 +17,7 @@
     "moment": "^2.22.2",
     "mongoose": "^4.8.7",
     "morgan": "^1.9.1",
-    "neo4j-driver": "^1.7.1"
+    "neo4j-driver": "^1.7.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
