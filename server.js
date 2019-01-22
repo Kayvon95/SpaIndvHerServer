@@ -66,6 +66,8 @@ app.use('*', function (req, res) {
 
 
 app.listen(config.env.webPort, function () {
+    console.log('SPA individueel - Kayvon Rahimi Morad Ali');
+    console.log('#2114114');
     console.log('De server luistert op port ' + app.get('port'));
     console.log('Zie bijvoorbeeld http://localhost:'+ app.get('port') + '/api/v1/someroutes');
 });

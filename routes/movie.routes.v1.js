@@ -47,7 +47,7 @@ routes.get('/:id', function (req, res) {
 
 //Create
 routes.post('/', function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     const newMovie = new Movie({
         'title': req.body.title,
         'subtitle': req.body.subtitle,
@@ -58,7 +58,7 @@ routes.post('/', function (req, res) {
     });
     Movie.create(newMovie)
         .then(movie => {
-            console.log("create: " + movie);
+            // console.log("create: " + movie);
             movie.save();
             res.send(movie)
         })

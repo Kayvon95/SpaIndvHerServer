@@ -37,7 +37,7 @@ routes.post('/', function(req, res) {
    });
    Actor.create(newActor)
        .then(actor => {
-           console.log("create: " + actor);
+           // console.log("create: " + actor);
            actor.save();
            res.send(actor)
        })

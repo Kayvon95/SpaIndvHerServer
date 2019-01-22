@@ -7,6 +7,7 @@ const neo4j = require('../config/neo4j.db');
 const session = neo4j.session();
 
 routes.get('/', function (req, res) {
+    // console.log('Calling @GET /directors/');
     Director.find({})
         .populate({
             path: 'movies',
@@ -25,6 +26,7 @@ routes.get('/', function (req, res) {
 
 //Find by ID
 routes.get('/:id', function (req, res) {
+    // console.log('Calling @GET /directors/' + req.params.id);
     res.contentType('application/json');
     Director.findOne({"_id": req.params.id})
         .populate({
@@ -44,7 +46,7 @@ routes.get('/:id', function (req, res) {
 
 //Create
 routes.post('/', function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     const newDirector = new Director({
         'firstName': req.body.firstName,
         'lastName': req.body.lastName,
@@ -55,7 +57,7 @@ routes.post('/', function (req, res) {
     });
     Director.create(newDirector)
         .then(director => {
-            console.log("create: " + director);
+            // console.log("create: " + director);
             director.save();
             res.send(director)
         })
