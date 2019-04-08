@@ -10,6 +10,7 @@ var env = {
     dbDatabase: process.env.DB_DATABASE || 'SPAindvServer',
     // dbDatabase: process.env.DB_DATABASE || 'SPAindvServerTest',
     neo4jPassword: process.env.NEO4J_PASSWORD || 'Ftuna19zIga',
+    secretkey: "124fe2345"
 };
 
 // var dbUrl = 'mongodb://' + process.env.dbUser + ':' + process.env.dbPassword + '@ds123372.mlab.com:23372/diractor-meann-server'
