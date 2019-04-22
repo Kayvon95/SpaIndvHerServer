@@ -24,32 +24,63 @@ describe('Creating a Movie', () => {
             });
     });
 
-    describe('/GET movies (all)', () => {
-        it('should return all movies from MongoDB', (done) => {
+    describe('/GET Movies', () => {
+        it('should return all the movies from MongoDB', (done) => {
             chai.request(server)
                 .get('/api/v1/movies')
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
-                    res.body.length.should.be.eql(2);
-                    res.body[1].should.have.property('title').equal('Batman');
-                    res.body[1].should.have.property('subtitle').equal('The Dark Knight');
+                    res.body.should.not.be.eql(null);
+                    res.body.length.should.be.eql(1);
+                    res.body.length.should.not.be.eql(2);
+                    res.body[0].should.have.property('title').equal('Batman');
                     done();
                 });
         });
-        it('it should return a specific movie', (done) => {
-            chai.request(server)
-                .get('/api/v1/movies/' + testMovie._id)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('title').equal('Batman');
-                    res.body.should.have.property('subtitle').equal('The Dark Knight');
-                    res.body.should.have.property('yearOfRelease').equal(2008);
-                    done();
-                });
-        });
+            it('it should return a specific movie', (done) => {
+                chai.request(server)
+                    .get('/api/v1/movies/' + testMovie._id)
+                    .end((err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('title').equal('Batman');
+                        res.body.should.have.property('subtitle').equal('The Dark Knight');
+                        res.body.should.have.property('yearOfRelease').equal(2008);
+                        done();
+                    });
+            });
     });
+
+    // describe('/GET movies (all)', () => {
+    //     it('should return all movies from MongoDB', (done) => {
+    //         chai.request(server)
+    //             .get('/api/v1/movies')
+    //             .end((err, res) => {
+    //                 res.should.have.status(200);
+    //                 should.exist(res.body);
+    //                 res.body.should.be.a('array');
+    //                 res.body.length.should.be.eql(1);
+    //                 res.body.length.should.not.be.eql(2);
+    //                 console.log(res.body[1]);
+    //                 res.body[1].should.have.property('title').equal('Batman');
+    //                 res.body[1].should.have.property('subtitle').equal('The Dark Knight');
+    //                 done();
+    //             });
+    //     });
+    //     it('it should return a specific movie', (done) => {
+    //         chai.request(server)
+    //             .get('/api/v1/movies/' + testMovie._id)
+    //             .end((err, res) => {
+    //                 res.should.have.status(200);
+    //                 res.body.should.be.a('object');
+    //                 res.body.should.have.property('title').equal('Batman');
+    //                 res.body.should.have.property('subtitle').equal('The Dark Knight');
+    //                 res.body.should.have.property('yearOfRelease').equal(2008);
+    //                 done();
+    //             });
+    //     });
+    // });
 
     describe('/POST movie', () => {
         it('it should post a new movie to the database and return it', (done) => {

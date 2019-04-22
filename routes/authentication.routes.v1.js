@@ -1,32 +1,75 @@
 const express = require('express');
-const router = express.Router();
+const routes = express.Router();
 const auth = require('../auth/authentication');
+const moment = require('moment');
+const User = require('../models/user');
 
-testUser = {username: 'k1', password: 'testww1'};
+routes.post('/signup', function (req, res) {
+    var newUser = new User();
+    newUser.username = req.body.username;
+    newUser.setPassword(req.body.password);
 
-router.all(new RegExp("[^(\/login)]"), function(req, res, next) {
-    var token = (req.header('X-Access-Token')) || '';
-    console.log("Validating Token")
-
-    auth.decodeToken(token, (err, payload) => {
-        if (err) {
-            console.log('Error: ' + err.message);
-            res.status((err.status || 401)).json({error: new Error("Not authorised, invalid token").message})
-        } else {
-            next()
-        }
-    })
+    // var checkedUser = new User();
+    // User.findOne({'username': newUser.username})
+    //     .then(function (user) {
+    //         console.log('username ' + newUser.username + ' is already taken');
+    //         checkedUser = new User();
+    //     })
+    //     .catch((error) => {
+    //         res.status(400).json(error);
+    //     });
+    // if (checkedUser.username != null) {
+    //     console.log('user already exists');
+    // } else {
+        console.log('no user found, proceed')
+        User.create(newUser)
+            .then(user => {
+                user.save();
+                const token = auth.encodeToken(newUser.username);
+                console.log("auth_token " + token);
+                res.status(200).json({"token": token, "username": user.username});
+                // res.send(user)
+            })
+            .catch((error) => {
+                res.status(400).json(error);
+            });
+    // }
 });
 
-router.route('/login')
+
+routes.route('/login')
     .post(function (req, res) {
-        var username = req.body.username || '';
-        var password = req.body.password || '';
-        console.log('result: ' + JSON.stringify(result[0]));
+        var submittedUser = new User();
+        submittedUser.username = req.body.username || '';
+        submittedUser.passwordHash = req.body.password || '';
 
-        if (result[0]) {
-            res.status(200).json({"token": auth.encodeToken(username), "username": username})
-        } else {
-            res.status(401).json({"error": "Not authorised."})
-        }
+        User.findOne({username: submittedUser.username}, function (err, user) {
+            if (!user) {
+                res.send('User not found')
+            }
+            else if (user.validatePassword(password)) {
+                // res.status(200).json({"auth_token": auth.encodeToken(username), "username": username})
+                const token = auth.encodeToken(submittedUser.username);
+                console.log("auth_token "  + token);
+                res.status(200).json({"token": token})
+            } else {
+                res.status(401).json({"error": "Not authorised."})
+            }
+        });
+        var password = submittedUser.passwordHash.toString();
+
+    });
+
+routes.post('/verifyToken', function(req, res){
+   // console.log(JSON.stringify(req.headers));
+   var token = req.get('Authorization') || '';
+   var decodedToken = auth.decodeToken(token);
+   // console.log(decodedToken.exp + ' ' + moment().unix());
+   if (decodedToken.exp > moment().unix()) {
+       res.send(decodedToken);
+   } else {
+       res.status(401).json({"error": "Token expired"})
+   }
 });
+
+module.exports = routes;
