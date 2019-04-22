@@ -31,6 +31,8 @@ describe('Creating an Actor', () => {
                .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
+                    res.body.should.not.be.eql(null);
+                    res.body.length.should.not.be.eql(1);
                     res.body.length.should.be.eql(2);
                     res.body[0].should.have.property('firstName').equal('Christian');
                     done();

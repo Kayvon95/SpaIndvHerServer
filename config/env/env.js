@@ -15,8 +15,10 @@ var env = {
 
 // var dbUrl = 'mongodb://' + process.env.dbUser + ':' + process.env.dbPassword + '@ds123372.mlab.com:23372/diractor-meann-server'
 var dbUrl =  `mongodb://localhost:${env.dbPort}/` + env.dbDatabase;
+var testDbUrl = `mongodb://localhost:${env.dbPort}/` + 'SPAindvServerTest';
 
 module.exports = {
     env: env,
-    dbUrl: dbUrl
+    dbUrl: dbUrl,
+    testDbUrl: testDbUrl
 };
